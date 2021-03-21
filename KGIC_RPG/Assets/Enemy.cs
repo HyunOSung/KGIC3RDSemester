@@ -144,6 +144,7 @@ public class Enemy : FSM
         Debug.Log("Damage");
     }
 
+    [SerializeField]
     int currentLevel = 1;
     float currentHP = 5;
 
@@ -164,19 +165,25 @@ public class Enemy : FSM
     {
         //상대방의 공격력을 받아서 내방어력 대비 HP 정산
         //float damage = DataManager.Instance.GetPlayerDB(currentLevel).baseDef - attack;
-        //if (damage < 0)
-        //{
-        //    if (damage <= 0)
-        //    {
-        //        SetState(State.Dead);
-        //    }
-        //    else
-        //    {
-        //        currentHP += damage;
-        //        target = DataManager.Instance.GetPlayer().gameObject;
-        //        SetState(State.AttackRun);
-        //    }
-        //}
+
+        float damage = attack;
+        if (damage > 0)
+        {
+            if (currentHP <= 0)
+            {
+               
+                player.marker.SetParent(null);
+                player.marker.transform.position = transform.position;
+                
+                SetState(State.Dead);
+            }
+            else
+            {
+                Debug.Log("Hit_Enemy");
+                currentHP -= damage;
+                //target = DataManager.Instance.GetPlayer().gameObject;             
+            }
+        }
     }
 
     IEnumerator Attack()
@@ -210,10 +217,20 @@ public class Enemy : FSM
 
     IEnumerator Dead()
     {
+        yield return null;
+
+        Transform marker = transform.Find("marker");
+        marker.SetParent(null);
+        marker.position = transform.position;
+
+        gameObject.SetActive(false);
+
         //DataManager.Instance.GetPlayer().marker.SetParent(null);
         //DataManager.Instance.GetPlayer().target = null;
 
-        yield return new WaitForSeconds(3f);
+        
+        //Debug.Log("Enemy_Dead");
+        //Destroy(gameObject);
     }
 
 

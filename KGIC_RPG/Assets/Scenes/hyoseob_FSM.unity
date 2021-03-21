@@ -163,7 +163,7 @@ MonoBehaviour:
   rayLength: 200
   target: {fileID: 0}
   currentLevel: 1
-  attack: 2
+  attack: 3
 --- !u!143 &366787686
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1140,6 +1140,7 @@ MonoBehaviour:
   - {fileID: 1053858924}
   target: {fileID: 0}
   player: {fileID: 366787685}
+  currentLevel: 1
   attack: 1
 --- !u!143 &1163666839
 CharacterController:

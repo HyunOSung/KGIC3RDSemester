@@ -152,7 +152,7 @@ public class Player : FSM
 
             if (targetTime >= 0.9f)
             {
-                Damage();                
+                SendDamage();                
             }
 
         }
@@ -185,7 +185,9 @@ public class Player : FSM
     {
         yield return null;
 
-        Destroy(gameObject);
+
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
         
     }
 
@@ -201,7 +203,7 @@ public class Player : FSM
     float currentHP = 10;
 
 
-    public float attack = 2;
+    public float attack = 3;
     Enemy enemy;
 
     public void SendDamage()
