@@ -19,19 +19,23 @@ public class Enemy : FSM
     public Player player;
 
 
+    public float attack;
+    public int currentLevel = 1;
+    public float currentHP;
 
 
 
-	CharacterController cc;
+    CharacterController cc;
 
 	protected override void Start()
 	{
 		base.Start();
 		cc = GetComponent<CharacterController>();
 
-		//currentHP = DataManager.Instance.GetEnemyDB(currentLevel).maxHP;
+        attack = DataManager.Instance.GetEnemyDB(currentLevel).baseAttack;
 
-		SetState(State.Idle);
+        currentHP = DataManager.Instance.GetEnemyDB(currentLevel).maxHP;
+        SetState(State.Idle);
 	}
 
     private void Update()
@@ -144,11 +148,9 @@ public class Enemy : FSM
         Debug.Log("Damage");
     }
 
-    [SerializeField]
-    int currentLevel = 1;
-    float currentHP = 5;
 
-    public float attack = 1;
+
+    
 
     public void SendDamage(float attack)
     {
@@ -164,16 +166,17 @@ public class Enemy : FSM
     public void TakenDamage(float attack)
     {
         //상대방의 공격력을 받아서 내방어력 대비 HP 정산
-        //float damage = DataManager.Instance.GetPlayerDB(currentLevel).baseDef - attack;
+        float damage = attack - DataManager.Instance.GetEnemyDB(currentLevel).baseDef;
 
-        float damage = attack;
+        //float damage = attack;
         if (damage > 0)
         {
+            Debug.Log("In_Hit_Enemy");
             if (currentHP <= 0)
             {
                
-                player.marker.SetParent(null);
-                player.marker.transform.position = transform.position;
+                //player.marker.SetParent(null);
+                //player.marker.transform.position = transform.position;
                 
                 SetState(State.Dead);
             }
@@ -219,13 +222,13 @@ public class Enemy : FSM
     {
         yield return null;
 
-        Transform marker = transform.Find("marker");
-        marker.SetParent(null);
-        marker.position = transform.position;
-
+        //Transform marker = transform.Find("marker");
+        //marker.SetParent(null);
+        //marker.position = transform.position;
+        DataManager.Instance.GetPlayer().marker.SetParent(null);
         gameObject.SetActive(false);
 
-        //DataManager.Instance.GetPlayer().marker.SetParent(null);
+        
         //DataManager.Instance.GetPlayer().target = null;
 
         

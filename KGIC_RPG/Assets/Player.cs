@@ -18,12 +18,21 @@ public class Player : FSM
 
     AnimationClip anim;
 
+    public float attack;
+    public int currentLevel = 1;
+    public float currentHP = 10;
+
 
     protected override void Start()
     {
         base.Start();
         cc = GetComponent<CharacterController>();
         layerMask = LayerMask.GetMask("Enemy", "Board", "Item");
+
+        attack = DataManager.Instance.GetPlayerDB(currentLevel).baseAttack;
+        currentHP = DataManager.Instance.GetPlayerDB(currentLevel).maxHP;
+
+        //Debug.Log(DataManager.Instance.GetPlayerDB(currentLevel).maxHP);
     }
 
     void Update()
@@ -141,8 +150,6 @@ public class Player : FSM
     IEnumerator Attack()
     {
         target = marker.GetComponentInParent<Enemy>();
-
-
         //Debug.Log(targetTime);
         while (isNewState == false)
         {
@@ -152,11 +159,14 @@ public class Player : FSM
 
             if (targetTime >= 0.9f)
             {
-                SendDamage();                
+
+                SendDamage();
+                if(targetTime >= 1.0f)
+                {
+                    targetTime = 0;
+                }
             }
-
         }
-
     }
 
     protected override IEnumerator AttackRun()
@@ -191,19 +201,7 @@ public class Player : FSM
         
     }
 
-    void Damage()
-    {
-        Debug.Log(transform.name+ ".Damage");
-        targetTime = 0;
-        //SetState(State.Attack);
-    }
 
-    [SerializeField]
-    int currentLevel = 1;
-    float currentHP = 10;
-
-
-    public float attack = 3;
     Enemy enemy;
 
     public void SendDamage()
@@ -214,8 +212,6 @@ public class Player : FSM
             SetState(State.Idle);
             return;
         }
-
-
         //타겟에 공격력을 전달
         //float attack = DataManager.Instance.GetPlayerDB(currentLevel).baseAttack;
 
@@ -224,10 +220,9 @@ public class Player : FSM
     public void TakenDamage(float attack)
     {
         //상대방의 공격력을 받아서 내방어력 대비 HP 정산
-        //float damage = DataManager.Instance.GetPlayerDB(currentLevel).baseDef - attack;
+        float damage = attack - DataManager.Instance.GetPlayerDB(currentLevel).baseDef;
 
         Debug.Log("Hit_Player");
-        float damage = attack;
         if (damage > 0)
         {
             currentHP -= damage;

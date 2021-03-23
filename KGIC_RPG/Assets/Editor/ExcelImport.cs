@@ -19,16 +19,17 @@ public class ExcelImport : AssetPostprocessor {
         Debug.Log("Excel data covert start.");
 
         MakePlayerData();
+        MakeEnemyData();
 
         Debug.Log("Excel data covert complete.");
     }
 
     static void MakePlayerData()
     {
-        Data.PlayerLevelData data = ScriptableObject.CreateInstance<Data.PlayerLevelData>();
+        PlayerLevelData data = ScriptableObject.CreateInstance<PlayerLevelData>();
         AssetDatabase.CreateAsset((ScriptableObject)data, playerExportPath);
 
-        data.hideFlags = HideFlags.NotEditable;
+        //data.hideFlags = HideFlags.NotEditable;
 
         data.list.Clear();
 
@@ -41,7 +42,7 @@ public class ExcelImport : AssetPostprocessor {
             {
                 IRow row = sheet.GetRow(i);
 
-                    Data.PlayerLevelData.Attribute a = new Data.PlayerLevelData.Attribute()
+                    PlayerLevelData.Attribute a = new PlayerLevelData.Attribute()
                     {
                         level = (int)row.GetCell(0).NumericCellValue,
                         maxHP = (int)row.GetCell(1).NumericCellValue,
@@ -65,23 +66,23 @@ public class ExcelImport : AssetPostprocessor {
 
     static void MakeEnemyData()
     {
-        Data.EnemyData data = ScriptableObject.CreateInstance<Data.EnemyData>();
+        EnemyData data = ScriptableObject.CreateInstance<EnemyData>();
         AssetDatabase.CreateAsset((ScriptableObject)data, enemyExportPath);
 
-        data.hideFlags = HideFlags.NotEditable;
+        //data.hideFlags = HideFlags.NotEditable;
 
         data.list.Clear();
 
         using (FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
         {
             IWorkbook book = new XSSFWorkbook(stream);
-            ISheet sheet = book.GetSheetAt(0);
+            ISheet sheet = book.GetSheetAt(1);
 
             for (int i = 2; i <= sheet.LastRowNum; i++)
             {
                 IRow row = sheet.GetRow(i);
 
-                Data.EnemyData.Attribute a = new Data.EnemyData.Attribute()
+                EnemyData.Attribute a = new EnemyData.Attribute()
                 {
                     level = (int)row.GetCell(0).NumericCellValue,
                     maxHP = (int)row.GetCell(1).NumericCellValue,

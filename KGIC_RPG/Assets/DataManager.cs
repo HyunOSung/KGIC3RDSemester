@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
+    [SerializeField]
+    PlayerLevelData playerLevelData;
+    EnemyData enemyData;
+    Player player;
+
     //싱글톤 기법 
     static DataManager instance = null;
 
@@ -15,17 +20,10 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    Data.PlayerLevelData playerLevelData;
-    Data.EnemyData enemyData;
-    Player player;
 
     private void Awake()
     {
         //instance = GetComponent<DataManager>();
-
-        playerLevelData = Resources.Load("Data/PlayerLevelData.Asset") as Data.PlayerLevelData;
-        enemyData = Resources.Load("Data/EnemyData.Asset") as Data.EnemyData;
         if (instance == null)
         {
             instance = this;
@@ -34,6 +32,11 @@ public class DataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+
+        playerLevelData = Resources.Load("Data/PlayerLevelData") as PlayerLevelData;
+        enemyData = Resources.Load("Data/EnemyData") as EnemyData;
+
 
         GameObject go = GameObject.FindWithTag("Player");
         player = go.GetComponent<Player>();
@@ -51,11 +54,11 @@ public class DataManager : MonoBehaviour
         return player;
     }
 
-    public Data.PlayerLevelData.Attribute GetPlayerDB(int level)
+    public PlayerLevelData.Attribute GetPlayerDB(int level)
     {
         return playerLevelData.list[level - 1];
     }
-    public Data.EnemyData.Attribute GetEnemyDB(int level)
+    public EnemyData.Attribute GetEnemyDB(int level)
     {
         return enemyData.list[level - 1];
     }
