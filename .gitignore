@@ -63,3 +63,5 @@ UserSettings
 Library
 Logs
 obj
+*.meta
+/KGIC_RPG/Assets/*.meta

@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d342a51a578a2a54e863baba4d841055, type: 3}
+  m_Name: PlayerLevelData
+  m_EditorClassIdentifier: 
+  list:
+  - level: 1
+    maxHP: 100
+    baseAttack: 30
+    baseDef: 5
+    requireNextLevelExp: 120
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 2
+    maxHP: 110
+    baseAttack: 10
+    baseDef: 7
+    requireNextLevelExp: 140
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 3
+    maxHP: 120
+    baseAttack: 10
+    baseDef: 9
+    requireNextLevelExp: 160
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 4
+    maxHP: 130
+    baseAttack: 10
+    baseDef: 11
+    requireNextLevelExp: 180
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 5
+    maxHP: 140
+    baseAttack: 10
+    baseDef: 13
+    requireNextLevelExp: 200
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 6
+    maxHP: 150
+    baseAttack: 10
+    baseDef: 15
+    requireNextLevelExp: 220
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 7
+    maxHP: 160
+    baseAttack: 10
+    baseDef: 17
+    requireNextLevelExp: 240
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 8
+    maxHP: 170
+    baseAttack: 10
+    baseDef: 19
+    requireNextLevelExp: 260
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 9
+    maxHP: 180
+    baseAttack: 10
+    baseDef: 21
+    requireNextLevelExp: 280
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
+  - level: 10
+    maxHP: 190
+    baseAttack: 10
+    baseDef: 23
+    requireNextLevelExp: 300
+    moveSpeed: 2
+    turnSpeed: 360
+    attackRange: 2
