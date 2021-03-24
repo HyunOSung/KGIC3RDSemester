@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : FSM
 {
@@ -22,6 +23,8 @@ public class Player : FSM
     public int currentLevel = 1;
     public float currentHP = 10;
 
+    public Slider HpBar;
+
 
     protected override void Start()
     {
@@ -32,6 +35,12 @@ public class Player : FSM
         attack = DataManager.Instance.GetPlayerDB(currentLevel).baseAttack;
         currentHP = DataManager.Instance.GetPlayerDB(currentLevel).maxHP;
 
+        //UI
+        HpBar.maxValue = currentHP;
+        HpBar.value = currentHP;
+        HpBar.GetComponent<HpBar>().uiDamage.text = currentHP.ToString() + "/" + HpBar.maxValue;
+        
+        
         //Debug.Log(DataManager.Instance.GetPlayerDB(currentLevel).maxHP);
     }
 
@@ -226,6 +235,10 @@ public class Player : FSM
         if (damage > 0)
         {
             currentHP -= damage;
+
+            //UI
+            HpBar.value = currentHP;
+            HpBar.GetComponent<HpBar>().uiDamage.text = currentHP.ToString() + "/" + HpBar.maxValue;
         }
     }
 }

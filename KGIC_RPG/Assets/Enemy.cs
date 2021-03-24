@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //플레이어는 Idle, Run, AttackRun, Attack, Dead
 //적 Idle, Run, AttackRun, Attack, Dead
@@ -10,6 +11,7 @@ public class Enemy : FSM
 	public float moveSpeed;
 	public float rotationSpeed;
 	public float attackRunSpeed;
+    public float patrolPoint = 0.1f;
 	public float sightRange;
     public float attackRange;
 
@@ -23,6 +25,8 @@ public class Enemy : FSM
     public int currentLevel = 1;
     public float currentHP;
 
+    public Slider HpBar;
+
 
 
     CharacterController cc;
@@ -35,6 +39,12 @@ public class Enemy : FSM
         attack = DataManager.Instance.GetEnemyDB(currentLevel).baseAttack;
 
         currentHP = DataManager.Instance.GetEnemyDB(currentLevel).maxHP;
+
+        HpBar.maxValue = currentHP;
+        HpBar.value = currentHP;
+        HpBar.GetComponent<HpBar>().uiDamage.text = currentHP.ToString() + "/" + HpBar.maxValue;
+
+
         SetState(State.Idle);
 	}
 
@@ -95,7 +105,7 @@ public class Enemy : FSM
             //float dist = Vector3.Distance(target.transform.position, transform.position);
             //Debug.Log("InPatrol" + Mathf.Round(dist));
             
-            if (MoveUtil.Move(target.transform.position, cc, sightRange, moveSpeed, rotationSpeed))
+            if (MoveUtil.Move(target.transform.position, cc, patrolPoint, moveSpeed, rotationSpeed))
             {
                 //Debug.Log(Vector3.Distance(target.transform.position, transform.position));
                
@@ -184,6 +194,8 @@ public class Enemy : FSM
             {
                 Debug.Log("Hit_Enemy");
                 currentHP -= damage;
+                HpBar.value = currentHP;
+                HpBar.GetComponent<HpBar>().uiDamage.text = currentHP.ToString() + "/" + HpBar.maxValue;
                 //target = DataManager.Instance.GetPlayer().gameObject;             
             }
         }
