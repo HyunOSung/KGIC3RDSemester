@@ -6,8 +6,12 @@ public class DataManager : MonoBehaviour
 {
     [SerializeField]
     PlayerLevelData playerLevelData;
+    [SerializeField]
     EnemyData enemyData;
+    [SerializeField]
     Player player;
+
+    PlayerData playerData;
 
     //싱글톤 기법 
     static DataManager instance = null;
@@ -41,6 +45,9 @@ public class DataManager : MonoBehaviour
         GameObject go = GameObject.FindWithTag("Player");
         player = go.GetComponent<Player>();
 
+
+        playerData = GetComponent<PlayerData>();
+
     }
 
     // Start is called before the first frame update
@@ -61,5 +68,10 @@ public class DataManager : MonoBehaviour
     public EnemyData.Attribute GetEnemyDB(int level)
     {
         return enemyData.list[level - 1];
+    }
+
+    public PlayerData GetPlayerData()
+    {
+        return playerData;
     }
 }

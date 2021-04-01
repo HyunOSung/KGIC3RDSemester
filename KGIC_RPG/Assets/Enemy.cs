@@ -171,7 +171,7 @@ public class Enemy : FSM
             return;
         }
 
-        player.TakenDamage(attack);
+        DataManager.Instance.GetPlayerData().TakenDamage(attack);
     }
     public void TakenDamage(float attack)
     {

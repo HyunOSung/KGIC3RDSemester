@@ -19,11 +19,11 @@ public class Player : FSM
 
     AnimationClip anim;
 
-    public float attack;
-    public int currentLevel = 1;
-    public float currentHP = 10;
+    //public float attack;
+    //public int currentLevel = 1;
+    //public float currentHP = 10;
 
-    public Slider HpBar;
+  
 
 
     protected override void Start()
@@ -32,13 +32,10 @@ public class Player : FSM
         cc = GetComponent<CharacterController>();
         layerMask = LayerMask.GetMask("Enemy", "Board", "Item");
 
-        attack = DataManager.Instance.GetPlayerDB(currentLevel).baseAttack;
-        currentHP = DataManager.Instance.GetPlayerDB(currentLevel).maxHP;
+        //attack = DataManager.Instance.GetPlayerDB(currentLevel).baseAttack;
 
-        //UI
-        HpBar.maxValue = currentHP;
-        HpBar.value = currentHP;
-        HpBar.GetComponent<HpBar>().uiDamage.text = currentHP.ToString() + "/" + HpBar.maxValue;
+
+
         
         
         //Debug.Log(DataManager.Instance.GetPlayerDB(currentLevel).maxHP);
@@ -46,13 +43,15 @@ public class Player : FSM
 
     void Update()
     {
+        var playerData = DataManager.Instance.GetPlayerData();
+
         Vector3 markerXZ = new Vector3(
             marker.position.x,
             transform.position.y,
             marker.position.z);
         if (GetCurrentState() != State.Dead)
         {
-            if (currentHP <= 0)
+            if (playerData.currentHP <= 0)
             {
                 SetState(State.Dead);
             }
@@ -211,10 +210,9 @@ public class Player : FSM
     }
 
 
-    Enemy enemy;
-
     public void SendDamage()
     {
+        var playerData = DataManager.Instance.GetPlayerData();
         if (target.GetCurrentState() == State.Dead)
         {
             target = null;
@@ -222,24 +220,9 @@ public class Player : FSM
             return;
         }
         //타겟에 공격력을 전달
-        //float attack = DataManager.Instance.GetPlayerDB(currentLevel).baseAttack;
+        float attack = DataManager.Instance.GetPlayerDB(playerData.currentLevel).baseAttack;
 
         target.TakenDamage(attack);
-    }
-    public void TakenDamage(float attack)
-    {
-        //상대방의 공격력을 받아서 내방어력 대비 HP 정산
-        float damage = attack - DataManager.Instance.GetPlayerDB(currentLevel).baseDef;
-
-        Debug.Log("Hit_Player");
-        if (damage > 0)
-        {
-            currentHP -= damage;
-
-            //UI
-            HpBar.value = currentHP;
-            HpBar.GetComponent<HpBar>().uiDamage.text = currentHP.ToString() + "/" + HpBar.maxValue;
-        }
     }
 }
 
